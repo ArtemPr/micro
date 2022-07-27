@@ -1,3 +1,7 @@
 controllers:
-    resource: ../src/Controller/
-    type: attribute
+    resource: ../module
+    type: annotation
+
+kernel:
+  resource: ../module/Kernel.php
+  type: annotation

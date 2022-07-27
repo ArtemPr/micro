@@ -13,12 +13,52 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
-    App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+    Module\:
+        resource: '../module/*'
+        exclude: '../module/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    Module\SendmailMicroService\:
+        resource: '../module/SendmailMicroService/*'
+        exclude: '../module/SendmailMicroService/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    Module\PaymentMicroService\:
+        resource: '../module/PaymentMicroService/*'
+        exclude: '../module/PaymentMicroService/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    Module\OrderNumMicroService\:
+        resource: '../module/OrderNumMicroService/*'
+        exclude: '../module/OrderNumMicroService/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    Module\OrderNumMicroService\Service\OrderNumService:
+        arguments:
+          - {
+            test_mode: false,
+            token: 'f0910071f325b10517c257fb4a65037e',
+            training_centre: {
+              1: 'АНО "АДПО"',
+              2:  'АНО ДПО "ВГАППССС"',
+              3: 'АНО ДПО "УрИПКиП"',
+              4: 'АНО "НИИДПО"',
+              5: 'МЦДО ООО "Бакалавр-Магистр"',
+              6: 'АНО ДПО "Учебно-деловой центр Сибири"',
+              7: 'АНО ДПО "ВСАПГиМС"',
+              9: 'АНО ДПО "ИПКИПЮР"',
+              11: 'АНО ДПО "МИДАГУ"',
+              12: 'АНО ВО "МИСАО"',
+              13: 'АНО ДПО "МИПК"',
+              15: 'АНО ДПО "ИППвСС"',
+              16: 'ОСЭК',
+              17: 'МШПУ',
+              18: 'НСПК',
+              19: 'АНО ДПО "ПНППИ "ПсихПед"',
+              20: 'ООО "МАДП "Пентаскул"',
+              21: 'ООО "Академия Полистайл"',
+            }
+          }
+
+    Module\CrmMicroService\:
+      resource: '../module/CrmMicroService/*'
+      exclude: '../module/CrmMicroService/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
