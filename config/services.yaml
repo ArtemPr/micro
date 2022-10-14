@@ -1,21 +1,17 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
 
 services:
-    # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        autowire: true
+        autoconfigure: true
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
     Module\:
         resource: '../module/*'
         exclude: '../module/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    Module\Main\:
+      resource: '../module/Main/*'
+      exclude: '../module/Main/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
     Module\SendmailMicroService\:
         resource: '../module/SendmailMicroService/*'
@@ -53,12 +49,10 @@ services:
               19: 'АНО ДПО "ПНППИ "ПсихПед"',
               20: 'ООО "МАДП "Пентаскул"',
               21: 'ООО "Академия Полистайл"',
+              22: 'АНО ДПО "НАРХСИ"',
             }
           }
 
     Module\CrmMicroService\:
       resource: '../module/CrmMicroService/*'
       exclude: '../module/CrmMicroService/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones

@@ -2,6 +2,7 @@
 
 namespace Module\OrderNumMicroService\Controller;
 
+use DateTime;
 use Module\OrderNumMicroService\Entity\OrderNum;
 use Module\OrderNumMicroService\Service\OrderNumService;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,13 +21,15 @@ class MainController extends AbstractController
     {
     }
 
+    /**
+     * @return Response
+     * @example /num?tc=1&token=f0910071f325b10517c257fb4a65037e
+     */
     #[Route('/num', name: 'get_num', methods: ['GET'])]
     public function index(): Response
     {
-        $mode = 'dev_mode';
-
         if ($this->orderNumService->test_mode === true) {
-            $date = new \DateTime();
+            $date = new DateTime();
             return $this->json(
                 [
                     'mode' => 'dev_mode',
@@ -40,10 +43,11 @@ class MainController extends AbstractController
                 $this->get_num()
             );
         }
-
-
     }
 
+    /**
+     * @return array|string[]
+     */
     private function get_num(): array
     {
         $request = new Request(
@@ -59,7 +63,7 @@ class MainController extends AbstractController
             &&
             !empty($this->orderNumService->training_centre[(int)$request->get('tc')])
         ) {
-            $date = new \DateTime();
+            $date = new DateTime();
             $num = new OrderNum();
             $num->setDate($date);
             $num->setTrainingCentre($this->orderNumService->training_centre[(int)$request->get('tc')]);
@@ -75,7 +79,7 @@ class MainController extends AbstractController
             ];
         } else {
             return [
-                'error'
+                'status' => 'access denied'
             ];
         }
     }
